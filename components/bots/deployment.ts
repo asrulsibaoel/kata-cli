@@ -20,7 +20,6 @@ export default class Deployment extends Component {
 
         try {
             const { data } = await this.helper.toPromise(this.api.botApi, this.api.botApi.botsBotIdVersionsGet, bot);
-
             if (label) {
                 const isVersion = versionRegex.test(label);
                 const latestTag = data.versions.filter((x : any) => {
@@ -42,8 +41,10 @@ export default class Deployment extends Component {
                 tag = "latest";
             }
 
-
-            if (!data.versions.some((v : string) => v.split("-")[0] === version)) {
+            if (!data.versions.some((v : string) => {
+                console.log("seplit V: ", Object.getOwnPropertyNames(v));
+                return v.split("-")[0] === version;
+            })) {
                 throw new Error("INVALID_VERSION");
             }
 
